@@ -55,6 +55,11 @@ export function RegisterForm() {
             We will email you a 6-digit code. Read it on any device and enter it
             here — no link to click.
           </p>
+          <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-900">
+            Beta note: until a custom domain is set up on Resend, verification
+            emails are only delivered to the address tied to your Resend account.
+            Use that email to sign up, or ask the site owner to verify a domain.
+          </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             <Input

@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
@@ -15,10 +17,12 @@ export function ProfileForm({
   emailVerified: string | null;
   memberSince: string;
 }) {
+  const router = useRouter();
   const [name, setName] = useState(initialName);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -45,6 +49,34 @@ export function ProfileForm({
     } catch {
       setLoading(false);
       setError("Could not reach the server.");
+    }
+  }
+
+  async function handleDeleteAccount() {
+    const confirmed = confirm(
+      "Delete your account permanently? All goals and progress will be removed. You can register again with the same email."
+    );
+    if (!confirmed) return;
+
+    setDeleting(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/profile", { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error ?? "Failed to delete account.");
+        setDeleting(false);
+        return;
+      }
+
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError("Could not reach the server.");
+      setDeleting(false);
     }
   }
 
@@ -91,6 +123,24 @@ export function ProfileForm({
           <dd className="mt-1 font-medium text-slate-900">{memberSince}</dd>
         </div>
       </dl>
+
+      <div className="rounded-2xl border border-red-200 bg-red-50/50 p-6">
+        <h2 className="font-semibold text-slate-900">Delete account</h2>
+        <p className="mt-1 text-sm text-slate-600">
+          Remove your account to test registration again, or leave the app
+          permanently. This cannot be undone.
+        </p>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={deleting}
+          onClick={handleDeleteAccount}
+          className="mt-4 border-red-200 text-red-600 hover:bg-red-50"
+        >
+          {deleting ? "Deleting…" : "Delete my account"}
+        </Button>
+      </div>
     </div>
   );
 }

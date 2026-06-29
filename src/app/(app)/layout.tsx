@@ -6,7 +6,7 @@ export default function AppShellLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
+    <div className="flex min-h-screen flex-col bg-slate-50">
       <DashboardNav />
       <main className="flex-1">{children}</main>
     </div>

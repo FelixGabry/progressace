@@ -7,6 +7,29 @@ const patchSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
 });
 
+export async function DELETE() {
+  const { user, response } = await requireUser();
+  if (response) return response;
+
+  try {
+    const { createAdminClient } = await import("@/lib/supabase/admin");
+    const admin = createAdminClient();
+
+    const { error: supabaseError } = await admin.auth.admin.deleteUser(user!.id);
+    if (supabaseError) {
+      console.error("[profile DELETE supabase]", supabaseError);
+    }
+
+    await prisma.pendingSignup.deleteMany({ where: { email: user!.email } });
+    await prisma.user.delete({ where: { id: user!.id } });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("[profile DELETE]", error);
+    return NextResponse.json({ error: "Failed to delete account" }, { status: 500 });
+  }
+}
+
 export async function PATCH(request: Request) {
   const { user, response } = await requireUser();
   if (response) return response;
