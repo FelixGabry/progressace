@@ -1,0 +1,38 @@
+---
+description: Auto-deploy ProgressAce to production after local code changes
+alwaysApply: true
+---
+
+# Auto-deploy on change
+
+ProgressAce is deployed on **Vercel** from GitHub (`main`). Push = deploy. No manual Vercel CLI needed.
+
+## After completing code changes
+
+When you finish a task that modified project files (not question-only or review-only):
+
+1. Run `npm run build` (or `npx tsc --noEmit` if build is blocked by a running dev server). Do not push if the build fails — fix first.
+2. **Commit and push** without waiting for the user to ask, unless they explicitly said not to deploy:
+   ```powershell
+   git add .
+   git commit -m "<short summary of why>"
+   git push origin main
+   ```
+3. Tell the user deploy is triggered and usually live in **2–3 minutes** on their Vercel URL.
+4. Remind them to hard-refresh (Ctrl+Shift+R) if they do not see changes.
+
+## Commit rules
+
+- Never commit `.env`, secrets, or credentials.
+- Use concise commit messages focused on **why**.
+- Do not force-push to `main`.
+- If there are no file changes, do not create an empty commit.
+
+## What is already automatic
+
+- **Vercel** rebuilds on every push to `main` (GitHub integration).
+- No extra GitHub Action required unless the user asks.
+
+## If push fails
+
+Report the error and give the user the exact commands to run locally.
