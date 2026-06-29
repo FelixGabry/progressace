@@ -1,0 +1,595 @@
+ProgressAce — Product Specification & Development Roadmap
+Document version: 1.0
+Last updated: June 27, 2026
+Domain: ProgressAce.com
+Project folder (dev): AchieveryAI (rename to progressace when convenient)
+
+1. Executive Summary
+ProgressAce is a web app that helps people achieve any goal by making the path visible, measurable, and motivating.
+
+The core insight: most people abandon goals because they only see where they are and where they want to be — not the path in between. ProgressAce turns vague ambitions into concrete, visual journeys with milestones and a progress bar.
+
+Positioning: Not a to-do list. A goal-centric progress system.
+
+Tagline options (use consistently in marketing):
+
+Turn goals into measurable progress.
+Track every goal. Measure every step. Reach your potential.
+Every great achievement starts with one small step.
+Short description:
+
+ProgressAce does not just remind you what to do. It shows you where you are going, how much you have already done, and how much remains to reach the result.
+
+2. The Problem
+Many people think:
+
+"I want to learn piano"
+"I want to start a business"
+"I want to save €1,000"
+But they do not know which steps to take. They see only:
+
+Starting point (now)
+Final destination (the goal)
+They do not see the path. Large goals feel overwhelming, distant, and unmotivating. People stall, go backward, or quit.
+
+Psychological principles (for marketing/education — do not oversell as medical claims):
+
+Large goals can feel crushing
+The brain prefers near-term rewards
+Visible progress increases motivation
+Small intermediate wins increase the likelihood of continuing
+Goal Gradient Effect: motivation rises when the next milestone feels close
+Core message (safe for marketing):
+
+The problem is not the goal. The problem is that the path to the goal is not visible.
+
+ProgressAce makes the path visible.
+
+Avoid in marketing: Claims like "healthy dopamine" or "anti-scrolling app" — hard to prove and can sound gimmicky. Focus on measurable progress and concrete steps.
+
+3. The Solution — Core Concept
+ProgressAce transforms any goal into:
+
+A visual progress bar (0% → 100%)
+Intermediate milestones (steps) on that bar
+Weighted progress — each step contributes a realistic percentage (not always equal splits)
+A dashboard to track all goals and daily organization
+Metaphor (for V2+ with AI): GPS for goals — the user picks a destination; the system builds, updates, and recalculates the best route when things change.
+
+Fundamental unit: The goal, not the task. Tasks/steps exist only to serve the goal.
+
+4. Goal Types
+4.1 Simple Goal
+One single step
+Progress: 0% until done, then 100%
+Examples: buy a new computer, book a doctor visit, pay a bill
+4.2 Complex Goal
+Multiple intermediate steps
+Each step has a title, optional description, order, and percentage weight
+Progress bar updates automatically as steps are completed
+Example — Publish a website:
+Analyze the project (10%)
+Create design (15%)
+Build frontend (35%)
+Connect domain (10%)
+Publish (30%)
+4.3 Numeric / Measurable Goals (V1.5+)
+For goals measurable in numbers (e.g. save €1,000):
+
+User sets min (0) and max (target)
+Progress can reflect current value: e.g. €520 / €1,000 = 52%
+Milestones can be placed at €250, €500, €750, €1,000
+For non-numeric goals, the user (or AI in V2) assigns estimated completion percentages per step.
+
+5. Step Creation Modes
+Mode	Description	Version
+Manual
+User creates all steps
+V1
+AI
+User describes goal; AI generates steps + percentages
+V2
+Hybrid
+AI generates first draft; user edits, adds, removes, reorders
+V2
+Step Origin Label (every step must track source)
+Label	Meaning
+USER_CREATED
+Written/added by user
+USER_MODIFIED
+Originally AI or user, then edited by user
+AI_GENERATED
+Created by AI (V2+)
+This improves transparency and prepares for AI recalculation in V2.
+
+6. Progress Bar — Central UI Element
+The progress bar is the heart of the product, not a secondary widget.
+
+Requirements:
+
+Shows 0% → 100% visually
+Milestones/steps appear on the bar (markers or nodes)
+Completed steps are visually distinct (checkmark, filled node, color change)
+Current overall percentage displayed prominently
+Optional: next milestone highlighted ("Next: Connect domain — 15% away")
+On step completion (V1 nice-to-have): subtle celebration animation + short message
+e.g. "You completed 50% of this path. Less road ahead than behind."
+Percentage logic:
+
+Simple goal: 0% or 100%
+Complex goal: sum of completed steps’ percentages
+User-assigned percentages on complex goals should sum to 100% (validate in UI)
+Default when adding steps manually: offer equal split with option to customize
+7. User Flows (Reference for Development)
+7.1 Create Simple Goal
+User clicks "New Goal"
+Chooses type: Simple
+Enters title, optional description, optional deadline, optional priority
+Saves → appears on dashboard at 0%
+Marks complete → 100%, moves to completed
+7.2 Create Complex Goal (Manual — V1)
+User clicks "New Goal"
+Chooses type: Complex
+Enters title, description, deadline, priority
+Adds steps manually (title, optional description, percentage or auto-split)
+Saves → progress bar shows all milestones at 0% overall
+User completes steps one by one → bar advances
+7.3 View & Manage Goal
+Dashboard lists active goals with mini progress bars
+Click goal → detail view: full bar, step list, edit/reorder steps, mark complete
+Edit goal metadata and steps anytime
+7.4 Daily Organization (V1 basic / V1.5 enhanced)
+Dashboard shows all active goals as the user's "to-do list of goals"
+V1.5: Today's Focus — 3–5 suggested activities based on deadlines, priority, and progress (rule-based first; AI in V3)
+8. Version Roadmap — What to Build When
+CRITICAL RULE: Do not build V2 features during V1. Validate the manual method first.
+
+VERSION 1.0 — MVP (No AI, No Payments)
+Purpose: Validate that the goal + milestones + progress bar method works without AI.
+
+Includes:
+
+
+ User registration
+
+ Login
+
+ Password recovery
+
+ User profile (basic)
+
+ Create goal — Simple type
+
+ Create goal — Complex type
+
+ Manual step creation, edit, delete, reorder
+
+ Step percentages (manual, with equal-split default)
+
+ Step source field (USER_CREATED default; schema ready for AI)
+
+ Progress bar component (central, polished)
+
+ Auto progress calculation on step completion
+
+ Dashboard: active goals, completed goals, overall completion %
+
+ Goal detail page
+
+ Deadlines on goals
+
+ Priority on goals
+
+ Mark goal as completed / paused / archived
+
+ Responsive design (desktop + mobile)
+
+ Landing page with value proposition
+Explicitly EXCLUDED from V1:
+
+❌ AI path generation
+❌ AI recalculation
+❌ Credit system
+  ] Stripe / payments
+❌ Advanced statistics / charts
+❌ Today's Focus (AI or smart)
+❌ Push notifications
+❌ Social / sharing
+❌ Mobile native app
+V1 success criteria:
+
+10–20 real users try it for 2+ weeks
+Users say the progress bar + milestones feel motivating
+Users prefer it over a plain notes/to-do app for goals (not grocery lists)
+VERSION 1.5 — Enhanced Manual Product
+Purpose: Increase retention and daily use without AI cost.
+
+Includes:
+
+
+ Statistics: goals completed, steps completed, time active
+
+ Simple charts (progress over time)
+
+ Filters and search (by status, priority, deadline)
+
+ Today's Focus (rule-based: deadlines + priority + incomplete steps)
+
+ Streak tracking (optional)
+
+ Calendar view of deadlines
+
+ Numeric goal type (save €X — manual value updates)
+
+ Export goal data (JSON/CSV)
+
+ Email notifications (optional, deadline reminders)
+VERSION 2.0 — AI + Credits + Payments
+Purpose: Add the differentiator — AI as "goal path architect" — with sustainable economics.
+
+AI features:
+
+
+ Generate path: user enters goal, current situation, deadline, details → AI creates steps + percentages + difficulty estimate
+
+ Recalculate path: user says e.g. "I already built the site with Lovable, skip programming steps" → AI removes obsolete steps, adds new ones, updates percentages
+
+ Realistic goal warning: if goal + deadline seem unrealistic → show non-blocking warning; user can continue, extend deadline, or split into phases
+
+ Hybrid mode: AI draft → user edits (steps tagged AI_GENERATED / USER_MODIFIED)
+
+ AI assigns realistic weighted percentages (not always equal)
+
+ AI request history logged (AiLog table)
+Credit system:
+
+
+ Credits stored server-side only (never trust client)
+
+ All AI calls go through backend API
+
+ Credit costs (example — calibrate with real API costs before launch):
+Operation	Credits (example)
+Create new path
+50
+Recalculate path
+20
+Advanced analysis
+100
+
+ Free actions (no credits): view goals, view stats, mark steps complete, edit manually
+Payments (Stripe):
+
+
+ Credit packages (example: €5 = 2,500 credits — numbers are placeholders)
+
+ Purchase flow + receipt
+
+ Credit transaction history
+Pricing philosophy:
+
+User pays for high-value AI operations, not every chat message
+Margin: ensure average user spending €5 costs you less in API + infra than revenue minus Stripe fees
+Consider small free trial (e.g. 7 days or 100 credits) despite initial "no freemium" idea — improves conversion; decide at V2 based on V1 learnings
+Anti-abuse (V2):
+
+Credits and AI on server only
+Rate limiting per user
+No unlimited requests per payment tier without caps
+Accept that 100% fraud prevention is impossible; make abuse inconvenient
+Recommended AI models (V2):
+
+Start with a cost-efficient API model (e.g. GPT-4o-mini, Claude Haiku, or similar)
+Upgrade to stronger models only for complex recalculations if needed
+Do not self-host LLMs initially — ops cost often exceeds API cost at small scale
+Cache/save generated paths in DB — do not call AI on every page load
+VERSION 3.0 — AI Personal Assistant
+Purpose: Daily intelligent coaching tied to long-term goals.
+
+Includes:
+
+
+ Morning Today's Focus generated by AI from all active goals
+
+ Proactive nudges: "Goal X stalled 18 days — reorganize?"
+
+ Motivational summaries: "Complete these 2 steps today → 50% on Goal Y"
+
+ Smarter recalculation with conversation context
+
+ Optional: document/script for video marketing explaining the psychology of goal-setting (user's original idea)
+9. AI Behavior Specification (V2+ Reference)
+Input (user provides)
+Goal title / description
+Current situation
+Optional deadline
+Additional context
+Output (AI must produce structured JSON)
+List of steps: title, description, percentage, order
+Estimated difficulty
+Optional warning if unrealistic
+Suggested sub-phases if goal is very large
+Recalculation triggers
+User completed steps out of order
+User skipped steps
+User changed strategy (e.g. used no-code instead of learning to code)
+User changed deadline or goal scope
+Warning behavior (unrealistic goals)
+Show warning; never block
+Offer: continue anyway / extend deadline / split into phases
+10. Database Schema (Target)
+Users
+Field	Type	Notes
+id
+String (cuid)
+PK
+name
+String?
+email
+String
+unique
+passwordHash
+String?
+credentials auth
+credits
+Int
+default 0; V2
+createdAt / updatedAt
+DateTime
+Goals
+Field	Type	Notes
+id
+String
+PK
+userId
+String
+FK
+title
+String
+description
+Text?
+currentSituation
+Text?
+V2 AI input
+deadline
+DateTime?
+percentage
+Float
+computed, default 0
+status
+Enum
+ACTIVE, COMPLETED, PAUSED, ARCHIVED
+type
+Enum
+SIMPLE, COMPLEX
+priority
+Int
+default 0
+difficulty
+String?
+V2 AI
+warning
+String?
+V2 AI unrealistic warning
+targetValue / currentValue
+Float?
+V1.5 numeric goals
+Steps
+Field	Type	Notes
+id
+String
+PK
+goalId
+String
+FK
+title
+String
+description
+Text?
+percentage
+Float
+weight toward 100%
+order
+Int
+display order
+completed
+Boolean
+default false
+completedAt
+DateTime?
+source
+Enum
+USER_CREATED, USER_MODIFIED, AI_GENERATED
+AiLog (V2)
+Field	Type
+id, userId, goalId?, requestType, request, response, creditsUsed, createdAt
+CreditTransaction (V2)
+Field	Type
+id, userId, amount, type (PURCHASE/USAGE/REFUND/BONUS), description, stripeId?, createdAt
+Auth tables (NextAuth)
+Account, Session, VerificationToken
+11. Technology Stack
+Layer	Choice
+Framework
+Next.js (App Router)
+Language
+TypeScript
+Styling
+Tailwind CSS
+UI inspiration
+Notion, Linear, Trello — clean, professional, minimal
+Database
+PostgreSQL
+ORM
+Prisma
+Authentication
+NextAuth.js (credentials + optional OAuth later)
+Payments (V2)
+Stripe
+AI (V2)
+OpenAI API or equivalent (server-side only)
+Animations
+Framer Motion (step completion celebrations)
+Charts (V1.5)
+Recharts or similar
+Hosting
+Vercel (frontend/API) + managed PostgreSQL (Neon, Supabase, or similar)
+12. Design Guidelines
+Clean, modern, professional — not gamified like a video game
+Light/neutral palette with one accent color for progress and success states
+Progress bar must be large and satisfying on goal detail view
+Dashboard: card-based goal list with mini progress bars
+Mobile-first responsive layouts
+Minimal friction to add a goal (≤ 3 clicks for simple goal)
+Empty states with clear CTAs ("Create your first goal")
+Accessibility: sufficient contrast, keyboard navigation where practical
+13. Pages & Routes (V1)
+Route	Purpose
+/
+Landing page
+/login
+Login
+/register
+Registration
+/forgot-password
+Password recovery
+/dashboard
+Main hub — all goals
+/goals/new
+Create goal
+/goals/[id]
+Goal detail + progress bar + steps
+/goals/[id]/edit
+Edit goal and steps
+/profile
+User settings
+14. API Endpoints (V1 Core)
+Method	Endpoint	Action
+POST
+/api/auth/register
+Register
+*
+/api/auth/[...nextauth]
+NextAuth
+GET
+/api/goals
+List user goals
+POST
+/api/goals
+Create goal + steps
+GET
+/api/goals/[id]
+Get goal with steps
+PATCH
+/api/goals/[id]
+Update goal
+DELETE
+/api/goals/[id]
+Delete goal
+PATCH
+/api/goals/[id]/steps/[stepId]
+Toggle complete / update step
+POST
+/api/goals/[id]/steps
+Add step
+DELETE
+/api/goals/[id]/steps/[stepId]
+Remove step
+V2 adds: /api/ai/generate-path, /api/ai/recalculate, /api/credits/purchase, Stripe webhooks.
+
+15. Brand & Naming History (Reference)
+Name considered	Status
+GoalPath AI
+Replaced
+AchieveryAI
+Replaced; dev folder may still use this name
+PathFinder, TargetPilot, AimAce, etc.
+Domains unavailable
+ProgressAce
+SELECTED — ProgressAce.com
+Brand meaning: Progress + Ace (excel, succeed) → "Become great at making progress."
+
+16. Competitive Differentiation
+Competitor type	ProgressAce difference
+Todoist, Things
+Task-first; ProgressAce is goal-first with visual path
+Notion
+Flexible but no built-in progress psychology
+Habitica
+Gamified RPG; ProgressAce is clean and serious
+ChatGPT alone
+No persistent progress bar, no milestone tracking, no dashboard
+Unique combination (especially V2+): AI path generation + visual weighted progress bar + dynamic recalculation + goal dashboard.
+
+17. Development Principles (For AI Assistant / Cursor)
+When building ProgressAce, always:
+
+Ship V1 scope first — resist adding AI, Stripe, or credits early
+Goal-centric data model — steps belong to goals, not floating tasks
+Progress bar is priority UX — invest design time here
+Server-side security for V2 — credits and AI never on client
+Match existing code conventions in the repo
+Minimal diff — do not over-engineer
+Validate percentages — complex goal steps must sum to 100%
+Persist step source — even in V1 manual mode, use USER_CREATED
+Rename branding in UI to ProgressAce (not AchieveryAI)
+Test with real users before V2 investment
+18. Open Decisions (Resolve Later)
+Topic	Options	When
+Free trial vs paid-only
+7-day trial vs 100 free credits vs paid-only
+Before V2 launch
+Exact credit pricing
+Depends on measured API cost per operation
+Before V2 launch
+OAuth providers
+Google, GitHub
+V1.5 or V2
+Italian localization
+English first; i18n later
+Post-V1
+Native mobile app
+PWA first vs React Native
+Post-V3
+.ai domain (€200)
+Buy only after validation
+After V1 user testing
+19. Document Usage Instructions
+For the developer / Cursor AI:
+
+This document is the single source of truth for ProgressAce. Before implementing any feature:
+
+Check which version the feature belongs to
+If it is V1.5, V2, or V3 — do not implement unless explicitly requested
+Refer to Section 8 for scope boundaries
+Refer to Section 10 for data model
+Refer to Section 17 for build principles
+When the user says "build the next feature", default to completing V1.0 checklist in order unless they specify otherwise.
+
+20. V1.0 Build Checklist (Quick Reference)
+Phase A — Foundation
+  [ ] Next.js + TypeScript + Tailwind project setup
+  [ ] Prisma + PostgreSQL schema (User, Goal, Step)
+  [ ] NextAuth registration + login + password reset
+  [ ] Protected routes (dashboard requires auth)
+Phase B — Core Product
+  [ ] Landing page
+  [ ] Dashboard (list goals)
+  [ ] Create goal (simple + complex)
+  [ ] Goal detail page
+  [ ] ProgressBar component (with milestone markers)
+  [ ] Step CRUD + reorder
+  [ ] Mark step complete → update goal percentage
+  [ ] Mark goal complete / archive
+Phase C — Polish
+  [ ] Deadlines + priority
+  [ ] Responsive mobile layout
+  [ ] Empty states + error handling
+  [ ] Step completion animation (optional but recommended)
+  [ ] Basic profile page
+Phase D — Validate
+  [ ] Deploy to staging/production
+  [ ] Test all user flows
+  [ ] Share with 10–20 testers
+  [ ] Collect feedback before starting V1.5
+End of ProgressAce Product Specification v1.0

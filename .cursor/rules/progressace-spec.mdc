@@ -1,0 +1,43 @@
+---
+description: ProgressAce product spec — read before implementing any feature
+alwaysApply: true
+---
+
+# ProgressAce — source of truth
+
+**Spec file:** `PROGRESSACE_SPEC.txt` (project root)
+
+Before implementing or planning any feature, read `PROGRESSACE_SPEC.txt` and follow it.
+
+## Brand & product
+
+- Name: **ProgressAce** (domain: ProgressAce.com)
+- Not AchieveryAI, GoalPath AI, or other legacy names in UI/copy
+- Positioning: goal-centric progress system — not a generic to-do list
+- Core UX: visual progress bar with weighted milestones/steps
+
+## Version scope (strict)
+
+| Version | Scope |
+|---------|--------|
+| **V1.0** | Manual goals, steps, progress bar, dashboard, auth — **default build target** |
+| V1.5 | Stats, Today's Focus (rule-based), numeric goals, filters |
+| V2.0 | AI path generation/recalculation, credits, Stripe |
+| V3.0 | AI daily assistant, proactive nudges |
+
+**Do not implement V1.5, V2, or V3 features unless the user explicitly asks.**
+
+V1 must NOT include: AI/OpenAI calls, credit system, Stripe/payments, advanced analytics.
+
+## V1 essentials
+
+- Goal types: **Simple** (0→100%) and **Complex** (multiple weighted steps summing to 100%)
+- Step `source`: `USER_CREATED` (schema ready for `AI_GENERATED` / `USER_MODIFIED` later)
+- Progress bar is the central UI element on goal detail
+- Stack: Next.js, TypeScript, Tailwind, Prisma, PostgreSQL (Neon), **Supabase Auth**
+
+## Build behavior
+
+- When the user says "build the next feature", follow **Section 20** checklist in the spec (Phase A → D)
+- Prefer minimal, focused diffs; match existing project conventions
+- Refer to spec **Section 8** (roadmap), **Section 10** (database), **Section 13–14** (routes/API)
