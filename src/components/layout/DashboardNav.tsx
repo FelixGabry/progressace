@@ -77,20 +77,21 @@ export function DashboardNav() {
     <>
       {/* Desktop — top bar */}
       <header className="sticky top-0 z-40 hidden border-b border-slate-200 bg-white lg:block">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-6">
-          <Logo size="sm" href="/dashboard" />
-
-          <nav className="flex flex-1 items-center justify-center gap-1">
-            {navItems.map((item) => (
-              <NavLink key={item.href} {...item} />
-            ))}
-          </nav>
+        <div className="mx-auto flex h-16 max-w-6xl items-center px-6">
+          <div className="flex items-center gap-4">
+            <Logo size="sm" href="/dashboard" />
+            <nav className="flex items-center gap-1">
+              {navItems.map((item) => (
+                <NavLink key={item.href} {...item} />
+              ))}
+            </nav>
+          </div>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={handleSignOut}
-            className="gap-2 text-slate-600"
+            className="ml-auto gap-2 text-slate-600"
           >
             <LogOut className="h-4 w-4" />
             Log out
